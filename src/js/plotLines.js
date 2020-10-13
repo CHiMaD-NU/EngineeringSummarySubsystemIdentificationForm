@@ -1,5 +1,4 @@
 function plotAnswers(){
-	console.log('drawing lines')
 	params.answers.columns.forEach(function(ac,i){
 		if (ac.toLowerCase().includes('link')){
 			//get the box columns
