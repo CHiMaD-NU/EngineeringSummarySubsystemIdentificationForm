@@ -50,13 +50,14 @@ function populateBoxes(){
 	})
 
 	//create an svg element that will hold all the lines and arrows 
+	console.log(d3.select('#container').node().getBoundingClientRect())
 	params.svg = d3.select('#container').append('svg')
 		.style('position', 'absolute')
 		.style('top', 0)
 		.style('left',0)
 		.style('overflow','hidden')
-		.style('width',d3.select('#container').node().getBoundingClientRect().width - 20) //to allow for the scroll bar
-		.style('height',d3.select('#container').node().getBoundingClientRect().height)
+		.style('width',d3.select('#container').node().getBoundingClientRect().width - 20 + 'px') //to allow for the scroll bar
+		.style('height',d3.select('#container').node().getBoundingClientRect().height + 'px')
 		.style('z-index',2)
 		.attr('clip-path', 'url(#myClip)')
 
