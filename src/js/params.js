@@ -38,7 +38,7 @@ function defineParams(){
 		this.answers;
 
 //width,opacity and color for answers
-		this.answerWidth = 4;
+		this.answerWidth = 2;
 		this.answerAlpha = 1;
 		this.answerColor = "#2E7BD0";
 
