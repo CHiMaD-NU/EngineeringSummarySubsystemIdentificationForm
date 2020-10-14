@@ -32,20 +32,23 @@ function resizer(){
 
 	//resize svg as needed
 	params.svg
-		.style('width',d3.select('#container').node().getBoundingClientRect().width - 20)
-		.style('height',d3.select('#container').node().getBoundingClientRect().height);
+		.style('width',d3.select('#container').node().getBoundingClientRect().width - 20 + 'px')
+		.style('height',window.innerHeight - d3.select('#container').node().getBoundingClientRect().top - 20 + 'px');
 
 	//redefine the clipping mask
 	params.svg.select('#myClip').selectAll('rect').remove();
-	defineSVGclip();
 
 	//remove arrows and add them back
 	d3.selectAll('.arrow').remove();
-	addArrows();
 
 	//remove all lines and add them back
 	d3.selectAll('.line').remove();
-	plotAnswers();
+	setTimeout(function(){ //wait for everything else to resize?
+		addArrows();
+		defineSVGclip();
+		plotAnswers(); 
+	}, 100);
+	
 
 	//resize the paragraph
 	resizePara();
