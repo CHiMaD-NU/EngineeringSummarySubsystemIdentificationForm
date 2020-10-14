@@ -13,8 +13,10 @@ function plotAnswers(){
 			//right sides
 			var vals = params.answers[0][ac].split(",")
 			vals.forEach(function(v,j){
-				var id2 = col2+params.cleanString(v);
-				drawLine(id1, id2, params.answerWidth, params.answerAlpha, params.answerColor, 'answers', 100.);
+				if (params.cleanString(v) != ""){
+					var id2 = col2+params.cleanString(v);
+					drawLine(id1, id2, params.answerWidth, params.answerAlpha, params.answerColor, 'answers', 100.);
+				}
 			})
 		}
 	})
