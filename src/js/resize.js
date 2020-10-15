@@ -1,6 +1,26 @@
 //attach listener on window resize and run it once to start
+window.addEventListener("resize", resizer);
+resizer(); //hack to try to allow time for the image to load (could do this more robustly but that seems more complicated than necessary)
 
-function resizePara(){
+function resizer(){
+
+	//resize the image if necessary
+	var img = document.getElementById('paraImage')
+	var hnow = img.getBoundingClientRect().height;
+	var wnow = img.getBoundingClientRect().width;
+	var aspect = img.naturalHeight/img.naturalWidth;  
+	var w = 0.44*window.innerWidth; //again, I'd rather not hardcode this (since it's in the style sheet), but it seems necessary
+	var h = w*aspect;
+	if (h > window.innerHeight*0.4){
+		w = Math.min(0.4*window.innerHeight/aspect, 0.44*window.innerWidth);
+		h = w*aspect;
+	}
+	img.height = h;
+	img.width = w;
+	img.style.paddingLeft = (document.getElementById('paraColumn').getBoundingClientRect().width -  w)/2. + "px";
+
+
+	//resize the paragraph
 	var lim = 0.1*window.innerHeight; //pixel limit to allow
 	var nLim = 50; //limit the number of iterations for text resizing
 
@@ -25,35 +45,65 @@ function resizePara(){
 
 		nTrial += 1
 	}
-
+	document.getElementById('form').height = rect.height 
 }
 
-function resizer(){
+// //attach listener on window resize and run it once to start
 
-	//resize svg as needed
-	params.svg
-		.style('width',d3.select('#container').node().getBoundingClientRect().width - 20 + 'px')
-		.style('height',window.innerHeight - d3.select('#container').node().getBoundingClientRect().top - 20 + 'px');
+// function resizePara(){
+// 	var lim = 0.1*window.innerHeight; //pixel limit to allow
+// 	var nLim = 50; //limit the number of iterations for text resizing
 
-	//redefine the clipping mask
-	params.svg.select('#myClip').selectAll('rect').remove();
+// 	//resize the paragraph font size so the para fills the screen height
+// 	var para = document.getElementById('paraColumn');
+// 	var fs = parseFloat(window.getComputedStyle(para, null).getPropertyValue('font-size'));
+// 	var rect = para.getBoundingClientRect();
+// 	var height = window.innerHeight - rect.top;
+// 	var diff = height - rect.height;
+// 	var nTrial = 0;
+// 	var fac = 0.5;
 
-	//remove arrows and add them back
-	d3.selectAll('.arrow').remove();
+// 	while ((Math.abs(diff) > lim || diff < 0) & nTrial < nLim){
+// 		var mult = fac*(1. + nTrial/nLim);
+// 		if (diff > 0){
+// 			mult =  2. - mult;
+// 		}
+// 		para.style.fontSize = fs*mult + 'px';
+// 		fs = parseFloat(window.getComputedStyle(para, null).getPropertyValue('font-size'));
+// 		rect = para.getBoundingClientRect();
+// 		diff = height - (rect.height + 0.005*window.innerWidth); //adding to account for of form?
 
-	//remove all lines and add them back
-	d3.selectAll('.line').remove();
-	setTimeout(function(){ //wait for everything else to resize?
-		addArrows();
-		defineSVGclip();
-		plotAnswers(); 
-	}, 100);
+// 		nTrial += 1
+// 	}
+
+// }
+
+// function resizer(){
+
+// 	//resize svg as needed
+// 	params.svg
+// 		.style('width',d3.select('#container').node().getBoundingClientRect().width - 20 + 'px')
+// 		.style('height',window.innerHeight - d3.select('#container').node().getBoundingClientRect().top - 20 + 'px');
+
+// 	//redefine the clipping mask
+// 	params.svg.select('#myClip').selectAll('rect').remove();
+
+// 	//remove arrows and add them back
+// 	d3.selectAll('.arrow').remove();
+
+// 	//remove all lines and add them back
+// 	d3.selectAll('.line').remove();
+// 	setTimeout(function(){ //wait for everything else to resize?
+// 		addArrows();
+// 		defineSVGclip();
+// 		plotAnswers(); 
+// 	}, 100);
 	
 
-	//resize the paragraph
-	resizePara();
+// 	//resize the paragraph
+// 	resizePara();
 
-	//resize the form
-	var el = document.getElementById("form");
-	el.height = window.innerHeight - el.getBoundingClientRect().top - 0.02*window.innerWidth; //not sure what to subtract here (or why it is needed!). I think this must be because of the margin, but I can't seem to get the browser to give me the current value (it always returns 0)
-}
+// 	//resize the form
+// 	var el = document.getElementById("form");
+// 	el.height = window.innerHeight - el.getBoundingClientRect().top - 0.02*window.innerWidth; //not sure what to subtract here (or why it is needed!). I think this must be because of the margin, but I can't seem to get the browser to give me the current value (it always returns 0)
+// }
